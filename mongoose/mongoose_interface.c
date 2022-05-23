@@ -617,7 +617,11 @@ int start_mongoose(const char *cfgfname, int argc, char *argv[])
 
 	mg_mgr_init(&mgr, NULL);
 
-	nc = mg_bind_opt(&mgr, s_http_port, ev_handler, bind_opts);
+	static char s_http_addr[64];
+	strcat(s_http_addr, "127.0.0.1:");
+	strcat(s_http_addr, s_http_port);
+
+	nc = mg_bind_opt(&mgr, s_http_addr, ev_handler, bind_opts);
 	if (nc == NULL) {
 		ERROR("Failed to start Mongoose: %s", *bind_opts.error_string);
 		exit(EXIT_FAILURE);
