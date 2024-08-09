@@ -39,6 +39,7 @@
 #define MG_ENABLE_SSL 0
 #endif
 
+#define MG_HOST "localhost"
 #define MG_PORT "8080"
 #define MG_ROOT "."
 
@@ -923,11 +924,11 @@ int start_mongoose(const char *cfgfname, int argc, char *argv[])
 			if (opts.port == end || errno || *end || port > 65535)
 				url = strdup(opts.port);
 			else
-				url = mg_mprintf(":%lu", port);
+				url = mg_mprintf("%s:%lu", MG_HOST, port);
 		}
 		free(opts.port);
 	} else {
-		url = mg_mprintf(":%s", MG_PORT);
+		url = mg_mprintf("%s:%s", MG_HOST, MG_PORT);
 	}
 
 	nc = mg_http_listen(&mgr, url, ev_handler, NULL);
